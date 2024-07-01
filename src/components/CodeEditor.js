@@ -1,9 +1,6 @@
-// src/CodeEditor.js
+// src/components/CodeEditor.js
 import React, { useState, useCallback } from "react";
-import Prism from "prismjs";
-import "prismjs/components/prism-clike";
-import "prismjs/components/prism-jsx"; // set language
-import "prismjs/themes/prism.css"; // set theme
+import { Highlight, themes } from "prism-react-renderer";
 
 const CodeEditor = () => {
   const [code, setCode] = useState("");
@@ -13,8 +10,7 @@ const CodeEditor = () => {
       const { key, target } = e;
       const { selectionStart, selectionEnd } = target;
 
-      // if Tab is pressed prevents its default behavior and handle thenew function
-      if (key === "Tab") {
+      if (key === "Tab") { // if Tab is pressed prevent its default beahvior and handle its function
         e.preventDefault();
         setCode(
           (prevCode) =>
@@ -27,7 +23,6 @@ const CodeEditor = () => {
         }, 0);
       }
 
-      // Handle auto-closing brackets, parentheses, and quotes
       const autoCloseMap = {
         "{": "}",
         "(": ")",
@@ -36,12 +31,12 @@ const CodeEditor = () => {
         "'": "'",
       };
 
+      // if any of the above keys are pressed then automatically complete it
       if (key in autoCloseMap) {
         e.preventDefault();
         const closingChar = autoCloseMap[key];
 
         if (selectionStart === selectionEnd) {
-          // No text selected, insert both characters
           setCode(
             (prevCode) =>
               `${prevCode.substring(
@@ -53,7 +48,6 @@ const CodeEditor = () => {
             target.selectionStart = target.selectionEnd = selectionStart + 1;
           }, 0);
         } else {
-          // Text is selected, wrap it with the characters
           const selectedText = code.substring(selectionStart, selectionEnd);
           setCode(
             (prevCode) =>
@@ -87,14 +81,23 @@ const CodeEditor = () => {
         onChange={handleChange}
         onKeyDown={handleKeyDown}
       />
-      <pre className="codeOutput">
-        <code
-          className="language-jsx"
-          dangerouslySetInnerHTML={{
-            __html: Prism.highlight(code, Prism.languages.jsx, "jsx"),
-          }}
-        />
-      </pre>
+      <Highlight
+        theme={themes.github}
+        code={code}
+        language="jsx"
+      >
+        {({ className, style, tokens, getLineProps, getTokenProps }) => (
+          <pre className={`${className} codeOutput`} style={style}>
+            {tokens.map((line, i) => (
+              <div {...getLineProps({ line, key: i })} key={i}>
+                {line.map((token, key) => (
+                  <span {...getTokenProps({ token, key })} key={key} />
+                ))}
+              </div>
+            ))}
+          </pre>
+        )}
+      </Highlight>
     </div>
   );
 };
