@@ -4,7 +4,7 @@
   font-size: 14px;
   color: #000000;
   background: #fafafa;
-  border: 1px solid red;
+  border: 1px solid #ccc;
   border-radius: 4px;
   min-height: 300px;
   overflow: hidden;
@@ -17,20 +17,20 @@
   width: 100%;
   height: 100%;
   z-index: 1;
-  background: none;
+  background: transparent;
   color: transparent;
-  caret-color: black; /* make cursor visible */
+  caret-color: black; /* to make cursor visible*/
   font: inherit;
   padding: 10px;
   border: none;
   resize: none;
   outline: none;
-  line-height: 1.31rem; /* added line height for alignment */
+  line-height: 1.5;
   box-sizing: border-box;
 }
 
 .codeInput::selection {
-  background: rgba(0, 0, 230, 0.3); /* color for selected text */
+  background: rgba(0, 0, 230, 0.3);
 }
 
 .codeOutput {
@@ -40,5 +40,6 @@
   white-space: pre-wrap;
   word-wrap: break-word;
   min-height: 300px;
-  overflow: hidden;
+  overflow: auto;
+  line-height: 1.5;
 }
