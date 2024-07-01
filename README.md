@@ -4,7 +4,8 @@ Used text-area elemnt and prismjs library for syntax highlighting.
 <br>
 App.js, CodeEditor.js and ap.css are the main files to review the code.
 <br>
-Functionality added: <br>
+Functionality added:
+<br>
 1. When Tab is pressed insert 2 white spaces.
 <br>
 2. when ',",{,(,[ are pressed it automatically writes another one.
